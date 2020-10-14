@@ -1,6 +1,5 @@
-import rasterize.LineRasterizerGraphics;
-import rasterize.LineRasterizerTrivial;
-import rasterize.RasterBufferedImage;
+import model.Polygon;
+import rasterize.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +18,8 @@ public class Main {
 	private RasterBufferedImage raster;
 	private int x,y,x2, y2;
 	private LineRasterizerTrivial rasterizer;
+	private Polygon polygon = new Polygon();
+	private PolygonRasterizer polygonRasterizer;
 
 	public Main(int width, int height) {
 		JFrame frame = new JFrame();
@@ -31,6 +32,8 @@ public class Main {
 
 		raster = new RasterBufferedImage(width, height);
 		rasterizer = new LineRasterizerTrivial(raster);
+		polygonRasterizer = new PolygonRasterizer(new DashLinaRasterize(Raster));
+
 		panel = new JPanel() {
 			private static final long serialVersionUID = 1L;
 
@@ -85,6 +88,7 @@ public class Main {
 		clear(0x222222);
 		rasterizer.test();
 		rasterizer.rasterize(x,y,x2,y2, Color.YELLOW);
+		polygonRasterizer.rasterize(polygon);
 		panel.repaint();
 	}
 

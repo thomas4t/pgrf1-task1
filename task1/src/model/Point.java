@@ -2,7 +2,7 @@ package model;
 
 public class Point {
 
-    public int x, y;
+    private final int x, y;
 
     public Point(int x, int y) {
         this.x = x;
@@ -14,6 +14,13 @@ public class Point {
         this.y = (int) Math.round(y);
     }
 
-    //TODO
+    public int getY(){return y;}
 
+    //TODO
+    float distanceTo(Point p){
+        return 0;
+    }
+
+    // Point p = new Point(3,4);
+    // p = new Point(5, p.getY());
 }
