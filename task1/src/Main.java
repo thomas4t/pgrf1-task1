@@ -32,7 +32,7 @@ public class Main {
 
 		raster = new RasterBufferedImage(width, height);
 		rasterizer = new LineRasterizerTrivial(raster);
-		polygonRasterizer = new PolygonRasterizer(new DashLinaRasterize(Raster));
+		polygonRasterizer = new PolygonRasterizer(new DashedLineRasterizer(raster));
 
 		panel = new JPanel() {
 			private static final long serialVersionUID = 1L;
