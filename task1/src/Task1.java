@@ -1,4 +1,3 @@
-import model.Line;
 import model.Point;
 import model.Polygon;
 import rasterize.DashedLineRasterizer;
@@ -73,9 +72,9 @@ public class Task1 {
                     Point p = new Point(e.getX(), e.getY());
                     polygon.points.add(p);
                     // make sure we render something
-                    int size =polygon.points.size();
+                    int size = polygon.points.size();
                     if(size >= 2){
-                        clear();
+                        reset();
                         // even numbers render filled
                         if(size % 2 == 0){
                             filledPlgRasterizer.rasterize(polygon);
@@ -104,10 +103,11 @@ public class Task1 {
         });
     }
 
-    public void clear() {
+    public void reset() {
         Graphics gr = rasterImg.getGraphics();
         gr.setColor(new Color(0x2f2f2f));
         gr.fillRect(0, 0, rasterImg.getWidth(), rasterImg.getHeight());
+        rasterImg.getGraphics().drawString("Click around to make stuff happen, press C to clear.", 5, rasterImg.getHeight() - 5);
     }
 
     public void present(Graphics graphics) {
@@ -115,11 +115,8 @@ public class Task1 {
     }
 
     public void start() {
-        clear();
-        rasterImg.getGraphics().drawString("Click around to make stuff happen, press C to clear.", 5, rasterImg.getHeight() - 5);
+        reset();
         panel.repaint();
-        Line l = new Line(20,500,400,50, 0x2f2f2f);
-        dashedLineRasterizer.rasterize(l);
 
     }
 
