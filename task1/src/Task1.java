@@ -7,10 +7,7 @@ import rasterize.RasterBufferedImage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 /**
  * trida pro kresleni na platno: zobrazeni pixelu, ovladani mysi
@@ -65,27 +62,37 @@ public class Task1 {
 
         panel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(MouseEvent e) {
-                    /*
-                    * Part 2 - creating a polygon
-                    */
-                    Point p = new Point(e.getX(), e.getY());
-                    polygon.points.add(p);
-                    // make sure we render something
-                    int size = polygon.points.size();
-                    if(size >= 2){
-                        reset();
-                        // even numbers render filled
-                        if(size % 2 == 0){
-                            filledPlgRasterizer.rasterize(polygon);
-                        }else{
-                            // odd numbers render dashed
-                            dashedPlgRasterizer.rasterize(polygon);
-                        }
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
 
-                        panel.repaint();
-                    }
+                // * on mouse release - appears as "CLICK" for user - render filled polygon
+                Point p = new Point(e.getX(), e.getY());
+                polygon.points.add(p);
+
+                setInitialCanvas();
+                filledPlgRasterizer.rasterize(polygon);
+                panel.repaint();
             }
+        });
+
+        panel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+
+                // * on mouse drag - render dashed polygon *preview*
+                if (polygon.getSize() >= 2) {
+                    polygon.removeLastPoint();
+                }
+                Point p = new Point(e.getX(), e.getY());
+                polygon.points.add(p);
+
+                setInitialCanvas();
+
+                dashedPlgRasterizer.rasterize(polygon);
+                panel.repaint();
+            }
+
         });
 
         //make sure addKeyListener works
@@ -95,7 +102,7 @@ public class Task1 {
         panel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_C){
+                if (e.getKeyCode() == KeyEvent.VK_C) {
                     polygon = new Polygon();
                     start();
                 }
@@ -103,11 +110,13 @@ public class Task1 {
         });
     }
 
-    public void reset() {
+
+    private void setInitialCanvas() {
         Graphics gr = rasterImg.getGraphics();
         gr.setColor(new Color(0x2f2f2f));
         gr.fillRect(0, 0, rasterImg.getWidth(), rasterImg.getHeight());
-        rasterImg.getGraphics().drawString("Click around to make stuff happen, press C to clear.", 5, rasterImg.getHeight() - 5);
+        rasterImg.getGraphics().drawString("Click or drag your mouse around to make magic happen.", 5, rasterImg.getHeight() - 20);
+        rasterImg.getGraphics().drawString("Press C to reset.", 5, rasterImg.getHeight() - 5);
     }
 
     public void present(Graphics graphics) {
@@ -115,9 +124,8 @@ public class Task1 {
     }
 
     public void start() {
-        reset();
+        setInitialCanvas();
         panel.repaint();
-
     }
 
     public static void main(String[] args) {

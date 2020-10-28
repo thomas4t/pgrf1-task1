@@ -60,6 +60,14 @@ public class CanvasMouse {
 				panel.repaint();
 			}
 		});
+//		panel.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mousePressed(MouseEvent e) {
+//				super.mousePressed(e);
+//			}
+//			Override
+//
+//		});
 	}
 
 	public void clear() {

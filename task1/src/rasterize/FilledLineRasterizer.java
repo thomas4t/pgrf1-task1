@@ -27,8 +27,10 @@ public class FilledLineRasterizer extends LineRasterizer {
 
             int shift_x, shift_y;
 
-            if (x1 < x2) shift_x = 1; else shift_x = -1;
-            if (y1 < y2) shift_y = 1; else shift_y = -1;
+            if (x1 < x2) shift_x = 1;
+            else shift_x = -1;
+            if (y1 < y2) shift_y = 1;
+            else shift_y = -1;
 
             while ((x1 != x2) || (y1 != y2)) {
 
